@@ -23,6 +23,7 @@ extension UIView {
                                         cornerRadius: cornerRadius ?? self.layer.cornerRadius).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+        clipsToBounds = true
     }
     
     //MARK: - Rounding -
@@ -31,3 +32,4 @@ extension UIView {
         clipsToBounds = true
     }
 }
+

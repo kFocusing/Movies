@@ -81,8 +81,20 @@ enum EndPoint {
     }
 }
 
-enum SortType: String {
-    case defaultSort = "popularity.desc"
-    case ratingSort = "vote_average.asc"
-    case dateSort = "release_date.asc"
+enum SortType: Int, CaseIterable {
+    
+    var title: String {
+        switch rawValue {
+        case 0:
+            return "popularity.desc"
+        case 1:
+            return "vote_average.desc"
+        default:
+            return "release_date.desc"
+        }
+    }
+    
+    case defaultSort = 0
+    case ratingSort
+    case dateSort
 }

@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let navigationController = UINavigationController()
+        navigationController.navigationBar.backgroundColor = .white
         let assemblyBuilder = AssemblyModelBuilder()
         let router = Router(navigationController: navigationController,
                             assemblyBuilder: assemblyBuilder)

@@ -11,10 +11,12 @@ class MovieListViewController: BaseViewController {
     
     //MARK: - UIElements -
     private lazy var tableView: UITableView = {
-        let table = UITableView(frame: .zero,
-                                style: .grouped)
+        let table = UITableView(frame: view.bounds,
+                                style: .plain)
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = .darkNavy
+        table.showsVerticalScrollIndicator = false
+        table.separatorStyle = .none
+        table.backgroundColor = .white
         table.dataSource = self
         table.delegate = self
         table.isHidden = false
@@ -53,11 +55,8 @@ class MovieListViewController: BaseViewController {
 
     private func setupNavigationBar() {
         title = "Popular Movies"
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
-        navigationController?.navigationBar.barTintColor = .darkNavy
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(sortPressed)), animated: true)
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
-        navigationItem.titleView?.backgroundColor = .darkNavy
         navigationItem.searchController = searchController
     }
     
@@ -65,6 +64,7 @@ class MovieListViewController: BaseViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Post"
+        
     }
     
     @objc private func sortPressed() {
@@ -75,17 +75,20 @@ class MovieListViewController: BaseViewController {
         let alert = UIAlertController(title: "Choose type of sorting",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Default",
+        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
+                                      == .defaultSort ? "Default ✓" : "Default",
                                       style: .default,
                                       handler: {_ in
             self.presenter.sortPosts(by: .defaultSort)
         }))
-        alert.addAction(UIAlertAction(title: "Date",
+        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
+                                      == .dateSort ? "Date ✓" : "Date",
                                       style: .default,
                                       handler: {_ in
             self.presenter.sortPosts(by: .dateSort)
         }))
-        alert.addAction(UIAlertAction(title: "Rating",
+        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
+                                      == .ratingSort ? "Rating ✓" : "Rating",
                                       style: .default,
                                       handler: { _ in
             self.presenter.sortPosts(by: .ratingSort)
@@ -144,13 +147,7 @@ extension MovieListViewController: UITableViewDelegate {
         if scrollView.contentOffset.y > (tableView.contentSize
                                             .height-100-scrollView
                                             .frame.size.height) {
-            presenter.pagination(stopLoader: disableFooterView)
-        }
-    }
-    
-    private func disableFooterView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.tableFooterView = nil
+            presenter.pagination()
         }
     }
 }

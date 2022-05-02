@@ -18,28 +18,26 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
     
     //MARK: - Internal -
     func configure(movie: PreviewMovieModel) {
-        backgroundColor = .darkNavy
-        addDropShadow(shadowOpacity: 0.3, shadowRadius: 3, shadowOffset: CGSize(width: 0, height: 3))
-        configureTextFields(movie)
+        backgroundColor = .white
+        configureLabels(movie)
         configurePosterImage(movie)
     }
     
     //MARK: - Private -
-    private func configureTextFields(_ movie: PreviewMovieModel) {
+    private func configureLabels(_ movie: PreviewMovieModel) {
         titleLabel.text = movie.title + " (\(movie.releaseDate.prefix(4)))"
-        
-
-        
-        
+        titleLabel.dropShadow()
         ratingLabel.text = String(movie.voteAverage)
+        ratingLabel.dropShadow()
         genresLabel.text = GenerService.shared.getGenres(by: movie.genreIDS)
                                         .map{ $0.name.capitalized }
                                         .joined(separator: ", ")
-        
+        genresLabel.dropShadow()
     }
     
     private func configurePosterImage(_ movie: PreviewMovieModel) {
         posterImage.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500\(movie.backdropPath)"))
         posterImage.makeRoundCorner(15)
+        addDropShadow(shadowOpacity: 1, shadowRadius: 1, shadowOffset: CGSize(width: 1, height: 1))
     }
 }

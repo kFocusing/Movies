@@ -24,7 +24,8 @@ protocol MovieListPresenterProtocol: AnyObject {
     func showMovieDetail()
     func searchItems(_ searchText: String)
     func sortPosts(by criterion: SortType)
-    func pagination(stopLoader: EmptyBlock)
+    func pagination()
+    func selectedSortType() -> SortType 
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -43,6 +44,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     private var currentPage = 1
     private var workItem: DispatchWorkItem?
+    private var isPagination = false
+    private var selectedSort = SortType.defaultSort
     
     //MARK: - Life Cycle -
     required init(view: MovieListViewProtocol,
@@ -65,6 +68,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func item(at index: Int) -> PreviewMovieModel {
         return movies[index]
+    }
+    
+    func selectedSortType() -> SortType {
+        return selectedSort
     }
     
     func itemsCount() -> Int {
@@ -93,24 +100,25 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func sortPosts(by criterion: SortType) {
         switch criterion {
         case .dateSort:
-            getPreviewPosts(.dateSort)
+            selectedSort = .dateSort
         case .ratingSort:
-            getPreviewPosts(.ratingSort)
+            selectedSort = .ratingSort
+            getting()
         case .defaultSort:
-            getPreviewPosts()
+            selectedSort = .defaultSort
         }
-        view?.update()
+        getPreviewPosts()
     }
     
-    func pagination(stopLoader: EmptyBlock) {
+    func pagination() {
         currentPage += 1
+        isPagination = true
         getPreviewPosts()
-        stopLoader()
     }
     
     //MARK: - Private -
-    private func getPreviewPosts(_ sortType: SortType = .defaultSort) {
-        let endpoint = EndPoint.list(sort: sortType.rawValue,
+    private func getPreviewPosts() {
+        let endpoint = EndPoint.list(sort: selectedSort.title,
                                      page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { result in
@@ -118,9 +126,41 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        self?.movies.append(contentsOf: result.results)
+                        if ((self?.isPagination) != nil) {
+                            self?.movies.append(contentsOf: result.results)
+                            self?.isPagination.toggle()
+                        } else {
+                            self?.movies = result.results
+                        }
                         self?.view?.update()
                     }
+                }
+            case .failure(let error):
+                self.view?.displayError(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func getting() {
+        let endpoint = EndPoint.list(sort: SortType.ratingSort.title,
+                                     page: 1)
+        NetworkService.shared.request(endPoint: endpoint,
+                                      expecting: PreviewMovieListModel.self) { result in
+            switch result {
+            case .success(let result):
+                if let result = result {
+                    DispatchQueue.main.async { [weak self] in
+//                        if ((self?.isPagination) != nil) {
+//                            self?.movies.append(contentsOf: result.results)
+//                            self?.isPagination.toggle()
+//                        } else {
+//                            self?.movies = result.results
+//                        }
+//                        self?.view?.update()
+                        print(result)
+                    }
+                } else {
+                    print("хуйня")
                 }
             case .failure(let error):
                 self.view?.displayError(error.localizedDescription)
@@ -172,5 +212,4 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.update()
     }
 }
-
 

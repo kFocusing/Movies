@@ -14,6 +14,7 @@
 		C74759DC281F4C4000C4AF93 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DB281F4C4000C4AF93 /* UIColorExtension.swift */; };
 		C74759DE281F500000C4AF93 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DD281F500000C4AF93 /* UIViewExtension.swift */; };
 		C74759E0281F6B4500C4AF93 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DF281F6B4500C4AF93 /* Typealias.swift */; };
+		C783DDF628208BCD00EFC16E /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783DDF528208BCD00EFC16E /* UILabelExtension.swift */; };
 		C7BD9225281B17C100E186FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9224281B17C100E186FD /* AppDelegate.swift */; };
 		C7BD9227281B17C100E186FD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9226281B17C100E186FD /* SceneDelegate.swift */; };
 		C7BD9229281B17C100E186FD /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9228281B17C100E186FD /* BaseViewController.swift */; };
@@ -43,6 +44,7 @@
 		C74759DB281F4C4000C4AF93 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C74759DD281F500000C4AF93 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		C74759DF281F6B4500C4AF93 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
+		C783DDF528208BCD00EFC16E /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		C7BD9221281B17C100E186FD /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BD9224281B17C100E186FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7BD9226281B17C100E186FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				C7BD923A281B355700E186FD /* StringExtension.swift */,
 				C74759DB281F4C4000C4AF93 /* UIColorExtension.swift */,
 				C74759DD281F500000C4AF93 /* UIViewExtension.swift */,
+				C783DDF528208BCD00EFC16E /* UILabelExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				C7BD923F281B357700E186FD /* AssemblyModelBuilder.swift in Sources */,
 				C7BD9225281B17C100E186FD /* AppDelegate.swift in Sources */,
 				C7BD9227281B17C100E186FD /* SceneDelegate.swift in Sources */,
+				C783DDF628208BCD00EFC16E /* UILabelExtension.swift in Sources */,
 				C7BD9245281B359700E186FD /* BaseTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
