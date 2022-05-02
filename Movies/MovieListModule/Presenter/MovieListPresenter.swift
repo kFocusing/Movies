@@ -23,7 +23,8 @@ protocol MovieListPresenterProtocol: AnyObject {
     func itemsCount() -> Int
     func showMovieDetail()
     func searchItems(_ searchText: String)
-    func sortPosts(by criterion: SortType) 
+    func sortPosts(by criterion: SortType)
+    func pagination(stopLoader: EmptyBlock)
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -101,6 +102,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.update()
     }
     
+    func pagination(stopLoader: EmptyBlock) {
+        currentPage += 1
+        getPreviewPosts()
+        stopLoader()
+    }
+    
     //MARK: - Private -
     private func getPreviewPosts(_ sortType: SortType = .defaultSort) {
         let endpoint = EndPoint.list(sort: sortType.rawValue,
@@ -111,11 +118,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        self?.movies = result.results
+                        self?.movies.append(contentsOf: result.results)
                         self?.view?.update()
                     }
-                } else {
-                    self.view?.displayError("Unknown Error")
                 }
             case .failure(let error):
                 self.view?.displayError(error.localizedDescription)
@@ -134,8 +139,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
                         GenerService.shared.setGenreList(result.genres)
                         self?.view?.update()
                     }
-                } else {
-                    self.view?.displayError("Unknown Error")
                 }
             case .failure(let error):
                 self.view?.displayError(error.localizedDescription)
@@ -155,8 +158,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
                         self?.searchResults = result.results
                         self?.view?.update()
                     }
-                } else {
-                    self.view?.displayError("Unknown Error")
                 }
             case .failure(let error):
                 self.view?.displayError(error.localizedDescription)

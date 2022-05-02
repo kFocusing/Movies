@@ -100,6 +100,19 @@ class MovieListViewController: BaseViewController {
     private func showMovieDetail(with indexPath: IndexPath) {
         //TODO: make prepare movie detail
     }
+    
+    private func createFooterSpinner() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0,
+                                              y: 0,
+                                              width: view.frame.size.width,
+                                              height: 100))
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        
+        return footerView
+    }
 }
 
 //MARK: - TableViewExtensions -
@@ -124,6 +137,21 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
 //        showMovieDetail(with: indexPath)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.tableView.tableFooterView = createFooterSpinner()
+        if scrollView.contentOffset.y > (tableView.contentSize
+                                            .height-100-scrollView
+                                            .frame.size.height) {
+            presenter.pagination(stopLoader: disableFooterView)
+        }
+    }
+    
+    private func disableFooterView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.tableFooterView = nil
+        }
     }
 }
 

@@ -13,6 +13,7 @@
 		C74759DA281F371C00C4AF93 /* GenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759D9281F371C00C4AF93 /* GenerService.swift */; };
 		C74759DC281F4C4000C4AF93 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DB281F4C4000C4AF93 /* UIColorExtension.swift */; };
 		C74759DE281F500000C4AF93 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DD281F500000C4AF93 /* UIViewExtension.swift */; };
+		C74759E0281F6B4500C4AF93 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DF281F6B4500C4AF93 /* Typealias.swift */; };
 		C7BD9225281B17C100E186FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9224281B17C100E186FD /* AppDelegate.swift */; };
 		C7BD9227281B17C100E186FD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9226281B17C100E186FD /* SceneDelegate.swift */; };
 		C7BD9229281B17C100E186FD /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9228281B17C100E186FD /* BaseViewController.swift */; };
@@ -41,6 +42,7 @@
 		C74759D9281F371C00C4AF93 /* GenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerService.swift; sourceTree = "<group>"; };
 		C74759DB281F4C4000C4AF93 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C74759DD281F500000C4AF93 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		C74759DF281F6B4500C4AF93 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 		C7BD9221281B17C100E186FD /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BD9224281B17C100E186FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7BD9226281B17C100E186FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			children = (
 				C7BD9244281B359700E186FD /* BaseTableViewCell.swift */,
 				C7BD9228281B17C100E186FD /* BaseViewController.swift */,
+				C74759DF281F6B4500C4AF93 /* Typealias.swift */,
 			);
 			path = BaseComponents;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				C74759DE281F500000C4AF93 /* UIViewExtension.swift in Sources */,
 				C7BD9239281B353B00E186FD /* Router.swift in Sources */,
 				C7BD924F281B361400E186FD /* PreviewMovieListModel.swift in Sources */,
+				C74759E0281F6B4500C4AF93 /* Typealias.swift in Sources */,
 				C7BD9229281B17C100E186FD /* BaseViewController.swift in Sources */,
 				C7BD9241281B358200E186FD /* MovieListViewController.swift in Sources */,
 				C74759DA281F371C00C4AF93 /* GenerService.swift in Sources */,
