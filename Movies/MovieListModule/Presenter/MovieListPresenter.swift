@@ -19,14 +19,15 @@ protocol MovieListPresenterProtocol: AnyObject {
     init(view: MovieListViewProtocol,
          router: RouterProtocol)
     func viewDidLoad()
-    func item(at index: Int) -> PreviewMovieModel
+    func getItem(at index: Int) -> PreviewMovieModel
     func itemsCount() -> Int
     func showMovieDetail(with id: Int)
     func searchItems(_ searchText: String)
     func sortPosts(by criterion: SortType)
     func pagination()
     func selectedSortType() -> SortType
-    func cancelSearch()
+    func getCurrentPage() -> Int
+    func resetCurrentPage()
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -63,8 +64,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
         getPreviewPosts()
     }
     
-    func item(at index: Int) -> PreviewMovieModel {
+    func getItem(at index: Int) -> PreviewMovieModel {
         return dataSource[index]
+    }
+    
+    func getCurrentPage() -> Int {
+        return currentPage
     }
     
     func selectedSortType() -> SortType {
@@ -89,6 +94,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
             }
             DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
             workItem = localWorkItem
+        } else {
+            view?.scrollToTop()
         }
         view?.update()
     }
@@ -103,7 +110,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         case .defaultSort:
             selectedSort = .defaultSort
         }
-        currentPage = 1
+        resetCurrentPage()
         getPreviewPosts()
         view?.scrollToTop()
     }
@@ -111,14 +118,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func pagination() {
         currentPage += 1
         isPagination = true
-//        searchResults = []
         isSearchActive ? getSearchMovies() : getPreviewPosts()
     }
     
-    func cancelSearch() {
+    func resetCurrentPage() {
         currentPage = 1
-        view?.scrollToTop()
-        getPreviewPosts()
     }
     
     //MARK: - Private -
@@ -170,6 +174,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                                              page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
+            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {
@@ -177,6 +182,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
                         if self?.isPagination == true {
                             self?.searchResults.append(contentsOf: result.results)
                         } else {
+                            if result.results.count == 0 {
+                                self?.view?.displayError("Failed Search")
+                            }
                             self?.searchResults = result.results
                         }
                         self?.isPagination = false
@@ -190,9 +198,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     private func updateSearchResults() {
-        currentPage = 1
-        getSearchMovies()
-        view?.update()
+        view?.showActivityIndicator()
+        resetCurrentPage()
+        isSearchActive ? getSearchMovies() : getPreviewPosts()
+        if itemsCount() > 1 {
+            view?.scrollToTop()
+        }
     }
 }
 

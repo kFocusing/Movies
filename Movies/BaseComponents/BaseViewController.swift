@@ -26,7 +26,9 @@ class BaseViewController: UIViewController {
     
     //MARK: -Internal
     func showActivityIndicator() {
-        activityIndicator.startAnimating()
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.startAnimating()
+        }
     }
     
     func hideActivityIndicator() {

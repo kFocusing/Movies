@@ -65,7 +65,6 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Post"
-        
     }
     
     @objc private func sortPressed() {
@@ -100,7 +99,7 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
         
         present(alert, animated: true, completion: nil)
     }
-
+    
     private func createFooterSpinner() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0,
                                               y: 0,
@@ -126,7 +125,7 @@ extension MovieListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = MoviePreviewXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        let item = presenter.item(at: indexPath.item)
+        let item = presenter.getItem(at: indexPath.item)
         cell.configure(movie: item)
         return cell
     }
@@ -136,15 +135,20 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        presenter.showMovieDetail(with: presenter.item(at: indexPath.row).id)
+        presenter.showMovieDetail(with: presenter.getItem(at: indexPath.row).id)
     }
     
     func tableView(_ tableView: UITableView,
                    willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
         self.tableView.tableFooterView = createFooterSpinner()
-        if indexPath.row == (presenter.itemsCount() - 3) && presenter.itemsCount() >= 10 {
+        
+        if indexPath.row == (presenter.itemsCount() - 3)
+            && presenter.itemsCount() >= 20
+            && (presenter.itemsCount() == presenter.getCurrentPage() * 20) {
             presenter.pagination()
+        } else {
+            tableView.tableFooterView = nil
         }
     }
 }
@@ -165,9 +169,11 @@ extension MovieListViewController: MovieListViewProtocol {
     func scrollToTop() {
         let topRow = IndexPath(row: 0,
                                section: 0)
-        tableView.scrollToRow(at: topRow,
-                              at: .top,
-                              animated: false)
+        DispatchQueue.main.async {
+            self.tableView.scrollToRow(at: topRow,
+                                       at: .top,
+                                       animated: false)
+        }
     }
 }
 
@@ -179,6 +185,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presenter.cancelSearch()
+        presenter.resetCurrentPage()
+        scrollToTop()
     }
 }
