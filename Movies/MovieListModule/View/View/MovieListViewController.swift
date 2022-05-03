@@ -52,7 +52,7 @@ class MovieListViewController: BaseViewController {
         layoutTableView()
         MoviePreviewXibTableViewCell.registerXIB(in: tableView)
     }
-
+    
     private func setupNavigationBar() {
         title = "Popular Movies"
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(sortPressed)), animated: true)
@@ -82,16 +82,16 @@ class MovieListViewController: BaseViewController {
             self.presenter.sortPosts(by: .defaultSort)
         }))
         alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
-                                      == .dateSort ? "Date ✓" : "Date",
-                                      style: .default,
-                                      handler: {_ in
-            self.presenter.sortPosts(by: .dateSort)
-        }))
-        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
                                       == .ratingSort ? "Rating ✓" : "Rating",
                                       style: .default,
                                       handler: { _ in
             self.presenter.sortPosts(by: .ratingSort)
+        }))
+        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
+                                      == .dateSort ? "Date ✓" : "Date",
+                                      style: .default,
+                                      handler: {_ in
+            self.presenter.sortPosts(by: .dateSort)
         }))
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
@@ -99,7 +99,7 @@ class MovieListViewController: BaseViewController {
         
         present(alert, animated: true, completion: nil)
     }
-
+    
     private func showMovieDetail(with indexPath: IndexPath) {
         //TODO: make prepare movie detail
     }
@@ -142,11 +142,11 @@ extension MovieListViewController: UITableViewDelegate {
         //TODO: show movie detail view controller
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
         self.tableView.tableFooterView = createFooterSpinner()
-        if scrollView.contentOffset.y > (tableView.contentSize
-                                            .height-100-scrollView
-                                            .frame.size.height) {
+        if indexPath.row == (presenter.itemsCount() - 3) {
             presenter.pagination()
         }
     }
@@ -163,6 +163,14 @@ extension MovieListViewController: MovieListViewProtocol {
     
     func displayError(_ error: String) {
         configureErrorAlert(with: error)
+    }
+    
+    func scrollToTop() {
+        let topRow = IndexPath(row: 0,
+                               section: 0)
+        tableView.scrollToRow(at: topRow,
+                              at: .top,
+                              animated: false)
     }
 }
 

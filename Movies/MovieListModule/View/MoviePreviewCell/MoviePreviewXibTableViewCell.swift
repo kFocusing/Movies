@@ -36,7 +36,10 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
     }
     
     private func configurePosterImage(_ movie: PreviewMovieModel) {
-        posterImage.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w500\(movie.backdropPath)"))
+        let path = movie.backdropPath != nil ?
+                    "https://image.tmdb.org/t/p/w500\(movie.backdropPath ?? "")"
+                    : "https://i.ytimg.com/vi/-maA-yHtBKU/maxresdefault.jpg"
+        posterImage.kf.setImage(with: URL(string: path))
         posterImage.makeRoundCorner(15)
         addDropShadow(shadowOpacity: 1, shadowRadius: 1, shadowOffset: CGSize(width: 1, height: 1))
     }

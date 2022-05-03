@@ -12,20 +12,20 @@ protocol MovieListViewProtocol: AnyObject {
     func displayError(_ error: String)
     func showActivityIndicator()
     func hideActivityIndicator()
+    func scrollToTop()
 }
 
 protocol MovieListPresenterProtocol: AnyObject {
     init(view: MovieListViewProtocol,
          router: RouterProtocol)
     func viewDidLoad()
-    func search(with searhText: String)
     func item(at index: Int) -> PreviewMovieModel
     func itemsCount() -> Int
     func showMovieDetail()
     func searchItems(_ searchText: String)
     func sortPosts(by criterion: SortType)
     func pagination()
-    func selectedSortType() -> SortType 
+    func selectedSortType() -> SortType
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -60,14 +60,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func viewDidLoad() {
         getGenres()
         getPreviewPosts()
-    }
-    
-    func search(with searhText: String) {
-        updateSearchResults(searhText)
+        searchResults = movies
     }
     
     func item(at index: Int) -> PreviewMovieModel {
-        return movies[index]
+        return dataSource[index]
     }
     
     func selectedSortType() -> SortType {
@@ -87,13 +84,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
         if isSearchActive {
             workItem?.cancel()
             let localWorkItem = DispatchWorkItem { [weak self] in
-                self?.search(with: searchText)
+                self?.updateSearchResults()
             }
-            DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
+            DispatchQueue.global().asyncAfter(deadline: .now(), execute: localWorkItem)
             workItem = localWorkItem
         }
         view?.update()
-                
+        
     }
     
     func sortPosts(by criterion: SortType) {
@@ -105,13 +102,16 @@ class MovieListPresenter: MovieListPresenterProtocol {
         case .defaultSort:
             selectedSort = .defaultSort
         }
+        currentPage = 1
         getPreviewPosts()
+        view?.scrollToTop()
     }
     
     func pagination() {
         currentPage += 1
         isPagination = true
         getPreviewPosts()
+//        isSearchActive ? getSearchMovies() : getPreviewPosts()
     }
     
     //MARK: - Private -
@@ -119,22 +119,22 @@ class MovieListPresenter: MovieListPresenterProtocol {
         let endpoint = EndPoint.list(sort: selectedSort.title,
                                      page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
-                                      expecting: PreviewMovieListModel.self) { result in
+                                      expecting: PreviewMovieListModel.self) { [weak self] result in
             switch result {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        if ((self?.isPagination) != nil) {
+                        if self?.isPagination == true {
                             self?.movies.append(contentsOf: result.results)
-                            self?.isPagination.toggle()
                         } else {
                             self?.movies = result.results
                         }
+                        self?.isPagination = false
                         self?.view?.update()
                     }
                 }
             case .failure(let error):
-                self.view?.displayError(error.localizedDescription)
+                self?.view?.displayError("Failed to get movies: \(error)")
             }
         }
     }
@@ -142,7 +142,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private func getGenres() {
         let endpoint = EndPoint.genres
         NetworkService.shared.request(endPoint: endpoint,
-                                      expecting: GenreListModel.self) { result in
+                                      expecting: GenreListModel.self) { [weak self] result in
             switch result {
             case .success(let result):
                 if let result = result {
@@ -152,34 +152,39 @@ class MovieListPresenter: MovieListPresenterProtocol {
                     }
                 }
             case .failure(let error):
-                self.view?.displayError(error.localizedDescription)
+                self?.view?.displayError("Failed to get genres: \(error)")
             }
         }
     }
     
-    private func getSearchMovies(_ searchText: String) {
+    private func getSearchMovies() {
         let endpoint = EndPoint.searchMovies(query: searchText,
                                              page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
-                                      expecting: PreviewMovieListModel.self) { result in
+                                      expecting: PreviewMovieListModel.self) { [weak self] result in
             switch result {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        self?.searchResults = result.results
+                        if self?.isPagination == true {
+                            self?.movies.append(contentsOf: result.results)
+                        } else {
+                            self?.searchResults = result.results
+                        }
+                        self?.isPagination = false
                         self?.view?.update()
                     }
                 }
             case .failure(let error):
-                self.view?.displayError(error.localizedDescription)
+                self?.view?.displayError("Failed to search movies: \(error)")
             }
         }
     }
     
     
     
-    private func updateSearchResults(_ searchText: String)  {
-        getSearchMovies(searchText)
+    private func updateSearchResults()  {
+        getSearchMovies()
         view?.update()
     }
 }

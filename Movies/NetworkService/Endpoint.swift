@@ -91,9 +91,9 @@ enum SortType: Int, CaseIterable {
         case 0:
             return "popularity.desc"
         case 1:
-            return "vote_average.desc"
+            return "vote_count.desc"
         default:
-            return "release_date.desc"
+            return "revenue.desc"
         }
     }
     
