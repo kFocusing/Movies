@@ -111,6 +111,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func pagination() {
         currentPage += 1
         isPagination = true
+//        searchResults = []
         isSearchActive ? getSearchMovies() : getPreviewPosts()
     }
     
@@ -174,7 +175,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
                         if self?.isPagination == true {
-                            self?.movies.append(contentsOf: result.results)
+                            self?.searchResults.append(contentsOf: result.results)
                         } else {
                             self?.searchResults = result.results
                         }

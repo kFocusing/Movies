@@ -143,7 +143,7 @@ extension MovieListViewController: UITableViewDelegate {
                    willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
         self.tableView.tableFooterView = createFooterSpinner()
-        if indexPath.row == (presenter.itemsCount() - 3) {
+        if indexPath.row == (presenter.itemsCount() - 3) && presenter.itemsCount() >= 10 {
             presenter.pagination()
         }
     }
