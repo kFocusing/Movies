@@ -80,7 +80,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func showMovieDetail() {
         //TODO: make prepare movie detail
-        //        router?.showMovieDetailViewController()
     }
     
     func searchItems(_ searchText: String) {
@@ -103,7 +102,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
             selectedSort = .dateSort
         case .ratingSort:
             selectedSort = .ratingSort
-            getting()
         case .defaultSort:
             selectedSort = .defaultSort
         }
@@ -134,33 +132,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
                         }
                         self?.view?.update()
                     }
-                }
-            case .failure(let error):
-                self.view?.displayError(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func getting() {
-        let endpoint = EndPoint.list(sort: SortType.ratingSort.title,
-                                     page: 1)
-        NetworkService.shared.request(endPoint: endpoint,
-                                      expecting: PreviewMovieListModel.self) { result in
-            switch result {
-            case .success(let result):
-                if let result = result {
-                    DispatchQueue.main.async { [weak self] in
-//                        if ((self?.isPagination) != nil) {
-//                            self?.movies.append(contentsOf: result.results)
-//                            self?.isPagination.toggle()
-//                        } else {
-//                            self?.movies = result.results
-//                        }
-//                        self?.view?.update()
-                        print(result)
-                    }
-                } else {
-                    print("хуйня")
                 }
             case .failure(let error):
                 self.view?.displayError(error.localizedDescription)

@@ -9,10 +9,16 @@ import Foundation
 
 struct GenerService {
     
+    //MARK: - Static Constants -
     static var shared = GenerService()
     
+    //MARK: - Private Variable -
     private var genreList: [GenreModel]!
     
+    //MARK: - Life Cycle -
+    private init() {}
+    
+    //MARK: - Internal -
     mutating func setGenreList(_ genreList: [GenreModel]) {
         self.genreList = genreList
     }

@@ -139,7 +139,7 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-//        showMovieDetail(with: indexPath)
+        //TODO: show movie detail view controller
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

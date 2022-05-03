@@ -7,6 +7,7 @@
 
 import Alamofire
 
+//MARK: - EndPointConstants -
 private struct EndPointConstants {
     static let baseURL = "https://api.themoviedb.org/3/"
     static let kApiKey = "api_key="
@@ -15,6 +16,7 @@ private struct EndPointConstants {
     static let language = "en"
 }
 
+//MARK: - EndPoint -
 enum EndPoint {
     case list(sort: String, page: Int)
     case genres
@@ -81,6 +83,7 @@ enum EndPoint {
     }
 }
 
+//MARK: - SortType -
 enum SortType: Int, CaseIterable {
     
     var title: String {

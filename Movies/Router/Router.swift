@@ -36,8 +36,6 @@ class Router: RouterProtocol {
     }
     
     func showMovieDetailViewController() {
-//        navigationController?.pushViewController( assemblyBuilder.createPostDetailModule(router: self,
-//                                                                                         postID: postID),
-//                                                 animated: true)
+        //TODO: make showMovieDetailViewController()
     }
 }
