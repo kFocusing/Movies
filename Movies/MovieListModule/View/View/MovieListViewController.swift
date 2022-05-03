@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MovieListViewController: BaseViewController {
+class MovieListViewController: BaseViewController, UISearchBarDelegate {
     
     //MARK: - UIElements -
     private lazy var tableView: UITableView = {
@@ -62,6 +62,7 @@ class MovieListViewController: BaseViewController {
     
     private func setupSearchBar() {
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Post"
         
@@ -99,11 +100,7 @@ class MovieListViewController: BaseViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
-    private func showMovieDetail(with indexPath: IndexPath) {
-        //TODO: make prepare movie detail
-    }
-    
+
     private func createFooterSpinner() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0,
                                               y: 0,
@@ -139,7 +136,7 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        //TODO: show movie detail view controller
+        presenter.showMovieDetail(with: presenter.item(at: indexPath.row).id)
     }
     
     func tableView(_ tableView: UITableView,
@@ -180,6 +177,8 @@ extension MovieListViewController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else { return }
         presenter.searchItems(searchText)
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        presenter.cancelSearch()
+    }
 }
-
-

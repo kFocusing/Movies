@@ -21,11 +21,12 @@ protocol MovieListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func item(at index: Int) -> PreviewMovieModel
     func itemsCount() -> Int
-    func showMovieDetail()
+    func showMovieDetail(with id: Int)
     func searchItems(_ searchText: String)
     func sortPosts(by criterion: SortType)
     func pagination()
     func selectedSortType() -> SortType
+    func cancelSearch()
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -60,7 +61,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func viewDidLoad() {
         getGenres()
         getPreviewPosts()
-        searchResults = movies
     }
     
     func item(at index: Int) -> PreviewMovieModel {
@@ -75,8 +75,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
         return dataSource.count
     }
     
-    func showMovieDetail() {
-        //TODO: make prepare movie detail
+    func showMovieDetail(with id: Int) {
+        //TODO: set id
+        router?.showMovieDetailViewController()
     }
     
     func searchItems(_ searchText: String) {
@@ -86,14 +87,14 @@ class MovieListPresenter: MovieListPresenterProtocol {
             let localWorkItem = DispatchWorkItem { [weak self] in
                 self?.updateSearchResults()
             }
-            DispatchQueue.global().asyncAfter(deadline: .now(), execute: localWorkItem)
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
             workItem = localWorkItem
         }
         view?.update()
-        
     }
     
     func sortPosts(by criterion: SortType) {
+        view?.showActivityIndicator()
         switch criterion {
         case .dateSort:
             selectedSort = .dateSort
@@ -110,8 +111,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func pagination() {
         currentPage += 1
         isPagination = true
+        isSearchActive ? getSearchMovies() : getPreviewPosts()
+    }
+    
+    func cancelSearch() {
+        currentPage = 1
+        view?.scrollToTop()
         getPreviewPosts()
-//        isSearchActive ? getSearchMovies() : getPreviewPosts()
     }
     
     //MARK: - Private -
@@ -120,6 +126,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                                      page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
+            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {
@@ -181,9 +188,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
     }
     
-    
-    
-    private func updateSearchResults()  {
+    private func updateSearchResults() {
+        currentPage = 1
         getSearchMovies()
         view?.update()
     }
