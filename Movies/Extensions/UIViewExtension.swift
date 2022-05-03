@@ -23,13 +23,11 @@ extension UIView {
                                         cornerRadius: cornerRadius ?? self.layer.cornerRadius).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
-        clipsToBounds = true
     }
     
     //MARK: - Rounding -
     func makeRoundCorner(_ rounding: Int) {
         layer.cornerRadius = CGFloat(rounding)
-        clipsToBounds = true
     }
 }
 

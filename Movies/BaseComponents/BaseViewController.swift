@@ -11,23 +11,23 @@ class BaseViewController: UIViewController {
     
     //MARK: - Variables -
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
+        let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.hidesWhenStopped = true
-        view.addSubview(activityIndicator)
+        activityIndicator.backgroundColor = UIColor(red: 1,
+                                                    green: 1,
+                                                    blue: 1,
+                                                    alpha: 0.5)
+        activityIndicator.makeRoundCorner(5)
+        activityIndicator.layer.zPosition = 1
         return activityIndicator
     }()
-    
-    //MARK: - Life Cycle -
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        layoutActivityIndicator()
-    }
     
     //MARK: -Internal
     func showActivityIndicator() {
         DispatchQueue.main.async { [weak self] in
             self?.activityIndicator.startAnimating()
+            self?.activityIndicator.isHidden = false
         }
     }
     
@@ -48,8 +48,8 @@ class BaseViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    //MARK: - Private -
-    private func layoutActivityIndicator() {
+    func layoutActivityIndicator() {
+        view.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)

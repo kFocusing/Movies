@@ -94,8 +94,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
             }
             DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
             workItem = localWorkItem
-        } else {
-            view?.scrollToTop()
         }
         view?.update()
     }
@@ -112,7 +110,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
         resetCurrentPage()
         getPreviewPosts()
-        view?.scrollToTop()
+        if itemsCount() != 0 {
+            view?.scrollToTop()
+        }
     }
     
     func pagination() {
@@ -201,7 +201,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.showActivityIndicator()
         resetCurrentPage()
         isSearchActive ? getSearchMovies() : getPreviewPosts()
-        if itemsCount() > 1 {
+        if itemsCount() != 0 {
             view?.scrollToTop()
         }
     }

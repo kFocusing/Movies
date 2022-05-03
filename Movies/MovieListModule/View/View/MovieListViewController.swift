@@ -35,6 +35,7 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
         setupSearchBar()
         setupTableView()
         presenter.viewDidLoad()
+        layoutActivityIndicator()
     }
     
     //MARK: - Private -
@@ -167,10 +168,9 @@ extension MovieListViewController: MovieListViewProtocol {
     }
     
     func scrollToTop() {
-        let topRow = IndexPath(row: 0,
-                               section: 0)
         DispatchQueue.main.async {
-            self.tableView.scrollToRow(at: topRow,
+            self.tableView.scrollToRow(at: IndexPath(row: 0,
+                                                     section: 0),
                                        at: .top,
                                        animated: false)
         }
@@ -186,6 +186,8 @@ extension MovieListViewController: UISearchResultsUpdating {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         presenter.resetCurrentPage()
-        scrollToTop()
+        if presenter.itemsCount() != 0 {
+            scrollToTop()
+        }
     }
 }
