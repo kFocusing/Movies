@@ -149,9 +149,11 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
-        self.tableView.tableFooterView = createFooterSpinner()
-        let itemsNumberBeforeLoadMore = 3
+        if presenter.checkLoading() {
+            self.tableView.tableFooterView = createFooterSpinner()
+        }
         
+        let itemsNumberBeforeLoadMore = 3
         if indexPath.row == (presenter.itemsCount() - itemsNumberBeforeLoadMore)
             && presenter.getCurrentPage() < presenter.getTotalPages() {
             presenter.loadMore()
