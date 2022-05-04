@@ -73,46 +73,39 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
     }
     
     private func showSortActionSheet() {
-        let alert = UIAlertController(title: "Choose type of sorting",
+        let actionSheet = UIAlertController(title: "Choose type of sorting",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-
-        let dateSortActionButton = UIAlertAction(title: "Date",
-                                style: .default,
-                                handler: { _ in
-            self.presenter.sortPosts(by: .dateSort)
-        })
-        dateSortActionButton.setValue(self.presenter.selectedSortType()
-                                    == .dateSort ? true : false,
-                                    forKey: "checked")
         
-        let ratingSortActionButton = UIAlertAction(title: "Rating",
-                                style: .default,
-                                handler: { _ in
-            self.presenter.sortPosts(by: .ratingSort)
-        })
-        ratingSortActionButton.setValue(self.presenter.selectedSortType()
-                                    == .ratingSort ? true : false,
-                                    forKey: "checked")
-        
-        let defaultSortActionButton = UIAlertAction(title: "Default",
-                                style: .default,
-                                handler: { _ in
+        actionSheet.addAction(UIAlertAction(title: "Default",
+                                      style: .default,
+                                      handler: { _ in
             self.presenter.sortPosts(by: .defaultSort)
-        })
-        defaultSortActionButton.setValue(self.presenter.selectedSortType()
-                                    == .defaultSort ? true : false,
-                                    forKey: "checked")
+        }))
         
-        alert.addAction(dateSortActionButton)
-        alert.addAction(ratingSortActionButton)
-        alert.addAction(defaultSortActionButton)
+        actionSheet.addAction(UIAlertAction(title: "Rating",
+                                      style: .default,
+                                      handler: { _ in
+            self.presenter.sortPosts(by: .ratingSort)
+        }))
         
-        alert.addAction(UIAlertAction(title: "Cancel",
+        actionSheet.addAction(UIAlertAction(title: "Date",
+                                      style: .default,
+                                      handler: { _ in
+            self.presenter.sortPosts(by: .dateSort)
+        }))
+        
+        actionSheet.actions.indices.forEach {
+            actionSheet.actions[$0].setValue(self.presenter.selectedSortType()
+                                             == SortType.allCases[$0] ? true
+                                             : false, forKey: "checked")
+        }
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
                                       handler: nil))
         
-        present(alert, animated: true, completion: nil)
+        present(actionSheet, animated: true, completion: nil)
     }
     
     private func createFooterSpinner() -> UIView {
@@ -160,8 +153,7 @@ extension MovieListViewController: UITableViewDelegate {
         let itemsNumberBeforeLoadMore = 3
         
         if indexPath.row == (presenter.itemsCount() - itemsNumberBeforeLoadMore)
-            && presenter.itemsCount() >= 20
-            && (presenter.itemsCount() == presenter.getCurrentPage() * 20) {
+            && presenter.getCurrentPage() < presenter.getTotalPages() {
             presenter.loadMore()
         } else {
             tableView.tableFooterView = nil

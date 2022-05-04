@@ -29,6 +29,8 @@ protocol MovieListPresenterProtocol: AnyObject {
     func getCurrentPage() -> Int
     func resetCurrentPage()
     func dataSourceIsNonEmpty() -> Bool
+    func checkLoading() -> Bool
+    func getTotalPages() -> Int
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -47,8 +49,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     private var currentPage = 1
     private var workItem: DispatchWorkItem?
-    private var isLoadMoreMovie = false
+    private var isLoading = false
     private var selectedSort = SortType.defaultSort
+    private var totalPages = 1
     
     //MARK: - Life Cycle -
     required init(view: MovieListViewProtocol,
@@ -73,6 +76,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
         return currentPage
     }
     
+    func getTotalPages() -> Int {
+        return totalPages
+    }
+    
     func selectedSortType() -> SortType {
         return selectedSort
     }
@@ -88,6 +95,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func dataSourceIsNonEmpty() -> Bool {
         return !dataSource.isEmpty
+    }
+    
+    func checkLoading() -> Bool {
+        return isLoading
     }
     
     func searchItems(_ searchText: String) {
@@ -122,13 +133,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func loadMore() {
         currentPage += 1
-        isLoadMoreMovie = true
+        isLoading = true
         isSearchActive ? searchMovies() : getPreviewPosts()
     }
     
     func resetCurrentPage() {
         currentPage = 1
-        
     }
     
     //MARK: - Private -
@@ -142,12 +152,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        if self?.isLoadMoreMovie == true {
+                        if self?.isLoading == true {
                             self?.movies.append(contentsOf: result.results)
                         } else {
                             self?.movies = result.results
                         }
-                        self?.isLoadMoreMovie = false
+                        self?.totalPages = result.totalPages
+                        self?.isLoading = false
                         self?.view?.update()
                     }
                 }
@@ -185,7 +196,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        if self?.isLoadMoreMovie == true {
+                        if self?.isLoading == true {
                             self?.searchResults.append(contentsOf: result.results)
                         } else {
                             if result.results.count == 0 {
@@ -193,7 +204,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
                             }
                             self?.searchResults = result.results
                         }
-                        self?.isLoadMoreMovie = false
+                        self?.totalPages = result.totalPages
+                        self?.isLoading = false
                         self?.view?.update()
                     }
                 }
