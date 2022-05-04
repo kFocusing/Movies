@@ -41,23 +41,14 @@ enum EndPoint {
     
     var method: HTTPMethod {
         switch self {
-        case .list,
-             .genres,
-             .searchMovies,
-             .movieDetails,
-             .movieTrailer:
-            return .get
+        default: return .get
         }
+    
     }
     
     var encoding: ParameterEncoding {
         switch self {
-        case .list,
-             .genres,
-             .searchMovies,
-             .movieDetails,
-             .movieTrailer:
-            return URLEncoding.default
+        default: return URLEncoding.default
         }
     }
     
@@ -81,23 +72,4 @@ enum EndPoint {
                       EndPointConstants.kLanguage,
                       EndPointConstants.language)
     }
-}
-
-//MARK: - SortType -
-enum SortType: Int, CaseIterable {
-    
-    var title: String {
-        switch rawValue {
-        case 0:
-            return "popularity.desc"
-        case 1:
-            return "vote_count.desc"
-        default:
-            return "revenue.desc"
-        }
-    }
-    
-    case defaultSort = 0
-    case ratingSort
-    case dateSort
 }

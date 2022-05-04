@@ -9,25 +9,24 @@ import UIKit
 
 extension UIView {
     //MARK: - Shadow -
-    func addDropShadow(shadowOpacity: Float,
-                       shadowRadius: CGFloat,
-                       shadowOffset: CGSize,
-                       shadowColor: CGColor? = UIColor.black.cgColor,
-                       cornerRadius: CGFloat? = nil) {
-        layer.masksToBounds = false
-        layer.shadowColor = shadowColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        layer.shadowPath = UIBezierPath(roundedRect: self.bounds,
-                                        cornerRadius: cornerRadius ?? self.layer.cornerRadius).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-    
+    func addDropShadow(offset: CGSize,
+                   color: UIColor,
+                   radius: CGFloat,
+                   opacity: Float) {
+            layer.masksToBounds = false
+            layer.shadowOffset = offset
+            layer.shadowColor = color.cgColor
+            layer.shadowRadius = radius
+            layer.shadowOpacity = opacity
+
+            let backgroundCGColor = backgroundColor?.cgColor
+            backgroundColor = nil
+            layer.backgroundColor =  backgroundCGColor
+        }
+
     //MARK: - Rounding -
-    func makeRoundCorner(_ rounding: Int) {
-        layer.cornerRadius = CGFloat(rounding)
+    func makeRoundCorner(_ cornerRadius: Int) {
+        layer.cornerRadius = CGFloat(cornerRadius)
     }
 }
 

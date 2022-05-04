@@ -11,14 +11,17 @@ import Kingfisher
 class MoviePreviewXibTableViewCell: BaseTableViewCell {
     
     //MARK: - UIElements -
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var genresLabel: UILabel!
-    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var ratingLabel: UILabel!
+    @IBOutlet private weak var genresLabel: UILabel!
+    @IBOutlet private weak var posterImage: UIImageView!
+    
+    //MARK: - Private Variables -
+    private var cornerRadius: CGFloat = 15
     
     //MARK: - Internal -
     func configure(movie: PreviewMovieModel) {
-        backgroundColor = .white
+        backgroundColor = .clear
         configureLabels(movie)
         configurePosterImage(movie)
     }
@@ -40,7 +43,11 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
                     "https://image.tmdb.org/t/p/w500\(movie.backdropPath ?? "")"
                     : "https://i.ytimg.com/vi/-maA-yHtBKU/maxresdefault.jpg"
         posterImage.kf.setImage(with: URL(string: path))
-        posterImage.makeRoundCorner(15)
-        addDropShadow(shadowOpacity: 1, shadowRadius: 1, shadowOffset: CGSize(width: 1, height: 1))
+        posterImage.makeRoundCorner(Int(cornerRadius))
+        addDropShadow(offset: CGSize.init(width: 0,
+                                      height: 1),
+                  color: UIColor.black,
+                  radius: 2,
+                  opacity: 0.7)
     }
 }

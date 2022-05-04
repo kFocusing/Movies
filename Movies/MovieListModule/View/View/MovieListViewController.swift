@@ -69,31 +69,45 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
     }
     
     @objc private func sortPressed() {
-        showSortAlert()
+        showSortActionSheet()
     }
     
-    private func showSortAlert() {
+    private func showSortActionSheet() {
         let alert = UIAlertController(title: "Choose type of sorting",
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
-                                      == .defaultSort ? "Default ✓" : "Default",
-                                      style: .default,
-                                      handler: {_ in
-            self.presenter.sortPosts(by: .defaultSort)
-        }))
-        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
-                                      == .ratingSort ? "Rating ✓" : "Rating",
-                                      style: .default,
-                                      handler: { _ in
-            self.presenter.sortPosts(by: .ratingSort)
-        }))
-        alert.addAction(UIAlertAction(title: self.presenter.selectedSortType()
-                                      == .dateSort ? "Date ✓" : "Date",
-                                      style: .default,
-                                      handler: {_ in
+
+        let dateSortActionButton = UIAlertAction(title: "Date",
+                                style: .default,
+                                handler: { _ in
             self.presenter.sortPosts(by: .dateSort)
-        }))
+        })
+        dateSortActionButton.setValue(self.presenter.selectedSortType()
+                                    == .dateSort ? true : false,
+                                    forKey: "checked")
+        
+        let ratingSortActionButton = UIAlertAction(title: "Rating",
+                                style: .default,
+                                handler: { _ in
+            self.presenter.sortPosts(by: .ratingSort)
+        })
+        ratingSortActionButton.setValue(self.presenter.selectedSortType()
+                                    == .ratingSort ? true : false,
+                                    forKey: "checked")
+        
+        let defaultSortActionButton = UIAlertAction(title: "Default",
+                                style: .default,
+                                handler: { _ in
+            self.presenter.sortPosts(by: .defaultSort)
+        })
+        defaultSortActionButton.setValue(self.presenter.selectedSortType()
+                                    == .defaultSort ? true : false,
+                                    forKey: "checked")
+        
+        alert.addAction(dateSortActionButton)
+        alert.addAction(ratingSortActionButton)
+        alert.addAction(defaultSortActionButton)
+        
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
                                       handler: nil))
@@ -143,11 +157,12 @@ extension MovieListViewController: UITableViewDelegate {
                    willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
         self.tableView.tableFooterView = createFooterSpinner()
+        let itemsNumberBeforeLoadMore = 3
         
-        if indexPath.row == (presenter.itemsCount() - 3)
+        if indexPath.row == (presenter.itemsCount() - itemsNumberBeforeLoadMore)
             && presenter.itemsCount() >= 20
             && (presenter.itemsCount() == presenter.getCurrentPage() * 20) {
-            presenter.pagination()
+            presenter.loadMore()
         } else {
             tableView.tableFooterView = nil
         }
@@ -164,16 +179,11 @@ extension MovieListViewController: MovieListViewProtocol {
     }
     
     func displayError(_ error: String) {
-        configureErrorAlert(with: error)
+        showErrorAlert(with: error)
     }
     
     func scrollToTop() {
-        DispatchQueue.main.async {
-            self.tableView.scrollToRow(at: IndexPath(row: 0,
-                                                     section: 0),
-                                       at: .top,
-                                       animated: false)
-        }
+        tableView.scrollToTop()
     }
 }
 
@@ -186,7 +196,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         presenter.resetCurrentPage()
-        if presenter.itemsCount() != 0 {
+        if presenter.dataSourceIsNonEmpty() {
             scrollToTop()
         }
     }

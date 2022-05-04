@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="210"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="questionmark.diamond" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Zoq-Iu-gzk">
-                                <rect key="frame" x="3" y="2.5" width="408" height="211.5"/>
+                                <rect key="frame" x="5" y="4.5" width="404" height="211.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="210" id="N93-vm-Gf3"/>
                                 </constraints>
@@ -58,11 +58,11 @@
                             <constraint firstAttribute="bottom" secondItem="nRz-At-yr2" secondAttribute="bottom" constant="10" id="Oko-Ur-vLt"/>
                             <constraint firstAttribute="trailing" secondItem="nRz-At-yr2" secondAttribute="trailing" constant="15" id="Vh5-DP-Nnv"/>
                             <constraint firstAttribute="bottom" secondItem="DK5-YG-dcH" secondAttribute="bottom" constant="10" id="dUW-I0-f9n"/>
-                            <constraint firstAttribute="bottom" secondItem="Zoq-Iu-gzk" secondAttribute="bottom" constant="3" id="eJe-nN-5Rl"/>
-                            <constraint firstItem="Zoq-Iu-gzk" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="3" id="efE-x8-0St"/>
-                            <constraint firstItem="Zoq-Iu-gzk" firstAttribute="top" secondItem="u4H-bg-sK9" secondAttribute="top" constant="3" id="enA-dO-Kht"/>
+                            <constraint firstAttribute="bottom" secondItem="Zoq-Iu-gzk" secondAttribute="bottom" constant="5" id="eJe-nN-5Rl"/>
+                            <constraint firstItem="Zoq-Iu-gzk" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="5" id="efE-x8-0St"/>
+                            <constraint firstItem="Zoq-Iu-gzk" firstAttribute="top" secondItem="u4H-bg-sK9" secondAttribute="top" constant="5" id="enA-dO-Kht"/>
                             <constraint firstItem="DK5-YG-dcH" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="15" id="o6H-Zq-iy7"/>
-                            <constraint firstAttribute="trailing" secondItem="Zoq-Iu-gzk" secondAttribute="trailing" constant="3" id="qIL-eA-Bs9"/>
+                            <constraint firstAttribute="trailing" secondItem="Zoq-Iu-gzk" secondAttribute="trailing" constant="5" id="qIL-eA-Bs9"/>
                             <constraint firstAttribute="trailing" secondItem="KAo-Dz-dXw" secondAttribute="trailing" constant="15" id="sMa-YU-lum"/>
                         </constraints>
                     </view>

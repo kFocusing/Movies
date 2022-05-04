@@ -27,9 +27,9 @@ struct GenerService {
         return genreList
     }
     
-    func getGenres(by id: [Int]) -> [GenreModel] {
+    func getGenres(by idList: [Int]) -> [GenreModel] {
         var genreListFromID: [GenreModel] = []
-        for id in id {
+        for id in idList {
             genreListFromID += genreList.filter { $0.id == id }
         }
         return genreListFromID

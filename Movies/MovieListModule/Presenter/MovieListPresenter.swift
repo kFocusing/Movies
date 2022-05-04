@@ -24,10 +24,11 @@ protocol MovieListPresenterProtocol: AnyObject {
     func showMovieDetail(with id: Int)
     func searchItems(_ searchText: String)
     func sortPosts(by criterion: SortType)
-    func pagination()
+    func loadMore()
     func selectedSortType() -> SortType
     func getCurrentPage() -> Int
     func resetCurrentPage()
+    func dataSourceIsNonEmpty() -> Bool
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -46,7 +47,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     private var currentPage = 1
     private var workItem: DispatchWorkItem?
-    private var isPagination = false
+    private var isLoadMoreMovie = false
     private var selectedSort = SortType.defaultSort
     
     //MARK: - Life Cycle -
@@ -85,6 +86,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
         router?.showMovieDetailViewController()
     }
     
+    func dataSourceIsNonEmpty() -> Bool {
+        return !dataSource.isEmpty
+    }
+    
     func searchItems(_ searchText: String) {
         self.searchText = searchText
         if isSearchActive {
@@ -110,19 +115,20 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
         resetCurrentPage()
         getPreviewPosts()
-        if itemsCount() != 0 {
+        if dataSourceIsNonEmpty() {
             view?.scrollToTop()
         }
     }
     
-    func pagination() {
+    func loadMore() {
         currentPage += 1
-        isPagination = true
-        isSearchActive ? getSearchMovies() : getPreviewPosts()
+        isLoadMoreMovie = true
+        isSearchActive ? searchMovies() : getPreviewPosts()
     }
     
     func resetCurrentPage() {
         currentPage = 1
+        
     }
     
     //MARK: - Private -
@@ -136,12 +142,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        if self?.isPagination == true {
+                        if self?.isLoadMoreMovie == true {
                             self?.movies.append(contentsOf: result.results)
                         } else {
                             self?.movies = result.results
                         }
-                        self?.isPagination = false
+                        self?.isLoadMoreMovie = false
                         self?.view?.update()
                     }
                 }
@@ -169,7 +175,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
     }
     
-    private func getSearchMovies() {
+    private func searchMovies() {
         let endpoint = EndPoint.searchMovies(query: searchText,
                                              page: currentPage)
         NetworkService.shared.request(endPoint: endpoint,
@@ -179,7 +185,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             case .success(let result):
                 if let result = result {
                     DispatchQueue.main.async { [weak self] in
-                        if self?.isPagination == true {
+                        if self?.isLoadMoreMovie == true {
                             self?.searchResults.append(contentsOf: result.results)
                         } else {
                             if result.results.count == 0 {
@@ -187,7 +193,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                             }
                             self?.searchResults = result.results
                         }
-                        self?.isPagination = false
+                        self?.isLoadMoreMovie = false
                         self?.view?.update()
                     }
                 }
@@ -200,10 +206,28 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private func updateSearchResults() {
         view?.showActivityIndicator()
         resetCurrentPage()
-        isSearchActive ? getSearchMovies() : getPreviewPosts()
-        if itemsCount() != 0 {
+        isSearchActive ? searchMovies() : getPreviewPosts()
+        if dataSourceIsNonEmpty() {
             view?.scrollToTop()
         }
     }
 }
 
+//MARK: - SortType -
+enum SortType: Int, CaseIterable {
+    
+    var title: String {
+        switch rawValue {
+        case 0:
+            return "popularity.desc"
+        case 1:
+            return "vote_count.desc"
+        default:
+            return "revenue.desc"
+        }
+    }
+    
+    case defaultSort = 0
+    case ratingSort
+    case dateSort
+}

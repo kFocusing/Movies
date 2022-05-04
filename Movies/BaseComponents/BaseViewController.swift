@@ -37,8 +37,8 @@ class BaseViewController: UIViewController {
         }
     }
     
-    func configureErrorAlert(with error: String?) {
-        let alert = UIAlertController(title: error ?? "",
+    func showErrorAlert(with message: String?) {
+        let alert = UIAlertController(title: message ?? "",
                                       message: nil,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay",
