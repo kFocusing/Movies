@@ -11,9 +11,9 @@ extension UITableView {
     func scrollToTop() {
         DispatchQueue.main.async {
             self.scrollToRow(at: IndexPath(row: 0,
-                                                     section: 0),
-                                       at: .top,
-                                       animated: false)
+                                           section: 0),
+                             at: .top,
+                             animated: false)
         }
     }
 }

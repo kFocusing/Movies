@@ -97,8 +97,7 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
         
         actionSheet.actions.indices.forEach {
             actionSheet.actions[$0].setValue(self.presenter.selectedSortType()
-                                             == SortType.allCases[$0] ? true
-                                             : false, forKey: "checked")
+                                             == SortType.allCases[$0], forKey: "checked")
         }
         
         actionSheet.addAction(UIAlertAction(title: "Cancel",
@@ -149,13 +148,9 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
-        if presenter.checkLoading() {
-            self.tableView.tableFooterView = createFooterSpinner()
-        }
-        
         let itemsNumberBeforeLoadMore = 3
         if indexPath.row == (presenter.itemsCount() - itemsNumberBeforeLoadMore)
-            && presenter.getCurrentPage() < presenter.getTotalPages() {
+            && presenter.itemsCount() < presenter.getTotalResults() {
             presenter.loadMore()
         } else {
             tableView.tableFooterView = nil
@@ -179,6 +174,10 @@ extension MovieListViewController: MovieListViewProtocol {
     func scrollToTop() {
         tableView.scrollToTop()
     }
+    
+    func loadingStart() {
+        self.tableView.tableFooterView = createFooterSpinner()
+    }
 }
 
 // MARK: - UISearchResultsUpdating -
@@ -190,7 +189,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         presenter.resetCurrentPage()
-        if presenter.dataSourceIsNonEmpty() {
+        if presenter.dataSourceIsNotEmpty() {
             scrollToTop()
         }
     }

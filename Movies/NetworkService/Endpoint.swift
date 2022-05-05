@@ -64,11 +64,11 @@ enum EndPoint {
         }
     }
     
-    func fullURLString() -> String {
+    static func fullURLString(for endpoint: EndPoint) -> String {
         return String(format: "%@%@%@?%@%@&%@%@",
                       EndPointConstants.baseURL,
                       EndPointConstants.apiVersion,
-                      self.path,
+                      endpoint.path,
                       EndPointConstants.kApiKey,
                       EndPointConstants.apiKey,
                       EndPointConstants.kLanguage,

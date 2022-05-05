@@ -25,7 +25,7 @@ final class NetworkService: NetworkServiceProtocol {
                              expecting: T.Type,
                              completion: @escaping (Result<T?, Error>) -> Void) {
         
-        let fullURLString = endPoint.fullURLString()
+        let fullURLString = EndPoint.fullURLString(for: endPoint)
         guard let url = URL(string: fullURLString) else {
             completion(.failure(RequestError.invalidURL))
             return

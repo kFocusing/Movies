@@ -13,6 +13,7 @@ protocol MovieListViewProtocol: AnyObject {
     func showActivityIndicator()
     func hideActivityIndicator()
     func scrollToTop()
+    func loadingStart()
 }
 
 protocol MovieListPresenterProtocol: AnyObject {
@@ -28,9 +29,9 @@ protocol MovieListPresenterProtocol: AnyObject {
     func selectedSortType() -> SortType
     func getCurrentPage() -> Int
     func resetCurrentPage()
-    func dataSourceIsNonEmpty() -> Bool
+    func dataSourceIsNotEmpty() -> Bool
     func checkLoading() -> Bool
-    func getTotalPages() -> Int
+    func getTotalResults() -> Int
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -51,7 +52,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private var workItem: DispatchWorkItem?
     private var isLoading = false
     private var selectedSort = SortType.defaultSort
-    private var totalPages = 1
+    private var totalResults = 1
     
     //MARK: - Life Cycle -
     required init(view: MovieListViewProtocol,
@@ -76,8 +77,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
         return currentPage
     }
     
-    func getTotalPages() -> Int {
-        return totalPages
+    func getTotalResults() -> Int {
+        return totalResults
     }
     
     func selectedSortType() -> SortType {
@@ -93,7 +94,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         router?.showMovieDetailViewController()
     }
     
-    func dataSourceIsNonEmpty() -> Bool {
+    func dataSourceIsNotEmpty() -> Bool {
         return !dataSource.isEmpty
     }
     
@@ -108,7 +109,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
             let localWorkItem = DispatchWorkItem { [weak self] in
                 self?.updateSearchResults()
             }
-            DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1,
+                                              execute: localWorkItem)
             workItem = localWorkItem
         }
         view?.update()
@@ -126,12 +128,15 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
         resetCurrentPage()
         getPreviewPosts()
-        if dataSourceIsNonEmpty() {
+        if dataSource.isNonEmpty {
             view?.scrollToTop()
         }
     }
     
     func loadMore() {
+        if !isLoading {
+            view?.loadingStart()
+        }
         currentPage += 1
         isLoading = true
         isSearchActive ? searchMovies() : getPreviewPosts()
@@ -157,7 +162,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                         } else {
                             self?.movies = result.results
                         }
-                        self?.totalPages = result.totalPages
+                        self?.totalResults = result.totalPages
                         self?.isLoading = false
                         self?.view?.update()
                     }
@@ -204,7 +209,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                             }
                             self?.searchResults = result.results
                         }
-                        self?.totalPages = result.totalPages
+                        self?.totalResults = result.totalResults
                         self?.isLoading = false
                         self?.view?.update()
                     }
@@ -219,7 +224,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.showActivityIndicator()
         resetCurrentPage()
         isSearchActive ? searchMovies() : getPreviewPosts()
-        if dataSourceIsNonEmpty() {
+        if dataSource.isNonEmpty {
             view?.scrollToTop()
         }
     }

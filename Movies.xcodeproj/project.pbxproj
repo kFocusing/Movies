@@ -16,6 +16,7 @@
 		C74759E0281F6B4500C4AF93 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74759DF281F6B4500C4AF93 /* Typealias.swift */; };
 		C77A99912822926700F67EF2 /* UITableViewExntension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A99902822926700F67EF2 /* UITableViewExntension.swift */; };
 		C783DDF628208BCD00EFC16E /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783DDF528208BCD00EFC16E /* UILabelExtension.swift */; };
+		C7A342972823DC240029AF24 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A342962823DC240029AF24 /* ArrayExtension.swift */; };
 		C7BD9225281B17C100E186FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9224281B17C100E186FD /* AppDelegate.swift */; };
 		C7BD9227281B17C100E186FD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9226281B17C100E186FD /* SceneDelegate.swift */; };
 		C7BD9229281B17C100E186FD /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD9228281B17C100E186FD /* BaseViewController.swift */; };
@@ -47,6 +48,7 @@
 		C74759DF281F6B4500C4AF93 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 		C77A99902822926700F67EF2 /* UITableViewExntension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExntension.swift; sourceTree = "<group>"; };
 		C783DDF528208BCD00EFC16E /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		C7A342962823DC240029AF24 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		C7BD9221281B17C100E186FD /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BD9224281B17C100E186FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7BD9226281B17C100E186FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				C74759DD281F500000C4AF93 /* UIViewExtension.swift */,
 				C783DDF528208BCD00EFC16E /* UILabelExtension.swift */,
 				C77A99902822926700F67EF2 /* UITableViewExntension.swift */,
+				C7A342962823DC240029AF24 /* ArrayExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				C7BD9247281B35A200E186FD /* Endpoint.swift in Sources */,
 				C7BD924D281B35DD00E186FD /* MovieDetailViewController.swift in Sources */,
 				C7BD923D281B356600E186FD /* CellRegister&DequeueReusableExtension.swift in Sources */,
+				C7A342972823DC240029AF24 /* ArrayExtension.swift in Sources */,
 				C7BD9243281B358B00E186FD /* MovieListPresenter.swift in Sources */,
 				C77A99912822926700F67EF2 /* UITableViewExntension.swift in Sources */,
 				C74759DC281F4C4000C4AF93 /* UIColorExtension.swift in Sources */,
