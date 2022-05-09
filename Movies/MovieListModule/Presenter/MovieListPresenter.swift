@@ -18,6 +18,7 @@ protocol MovieListViewProtocol: AnyObject {
 
 protocol MovieListPresenterProtocol: AnyObject {
     init(view: MovieListViewProtocol,
+         networkService: NetworkServiceProtocol,
          router: RouterProtocol)
     func viewDidLoad()
     func getItem(at index: Int) -> PreviewMovieModel
@@ -30,7 +31,6 @@ protocol MovieListPresenterProtocol: AnyObject {
     func getCurrentPage() -> Int
     func resetCurrentPage()
     func dataSourceIsNotEmpty() -> Bool
-    func checkLoading() -> Bool
     func getTotalResults() -> Int
 }
 
@@ -38,6 +38,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Properties -
     weak var view: MovieListViewProtocol?
+    let networkService: NetworkServiceProtocol!
     var router: RouterProtocol?
     private var movies: [PreviewMovieModel]
     private var searchResults: [PreviewMovieModel]
@@ -56,8 +57,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Life Cycle -
     required init(view: MovieListViewProtocol,
+                  networkService: NetworkServiceProtocol,
                   router: RouterProtocol) {
         self.view = view
+        self.networkService = networkService
         self.router = router
         self.movies = []
         self.searchResults = []
@@ -95,13 +98,9 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     func dataSourceIsNotEmpty() -> Bool {
-        return !dataSource.isEmpty
+        return dataSource.isNotEmpty
     }
-    
-    func checkLoading() -> Bool {
-        return isLoading
-    }
-    
+
     func searchItems(_ searchText: String) {
         self.searchText = searchText
         if isSearchActive {
@@ -128,7 +127,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
         resetCurrentPage()
         getPreviewPosts()
-        if dataSource.isNonEmpty {
+        if dataSource.isNotEmpty {
             view?.scrollToTop()
         }
     }
@@ -150,7 +149,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private func getPreviewPosts() {
         let endpoint = EndPoint.list(sort: selectedSort.title,
                                      page: currentPage)
-        NetworkService.shared.request(endPoint: endpoint,
+        networkService.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
             self?.view?.hideActivityIndicator()
             switch result {
@@ -175,7 +174,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     private func getGenres() {
         let endpoint = EndPoint.genres
-        NetworkService.shared.request(endPoint: endpoint,
+        networkService.request(endPoint: endpoint,
                                       expecting: GenreListModel.self) { [weak self] result in
             switch result {
             case .success(let result):
@@ -194,7 +193,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private func searchMovies() {
         let endpoint = EndPoint.searchMovies(query: searchText,
                                              page: currentPage)
-        NetworkService.shared.request(endPoint: endpoint,
+        networkService.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
             self?.view?.hideActivityIndicator()
             switch result {
@@ -224,7 +223,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.showActivityIndicator()
         resetCurrentPage()
         isSearchActive ? searchMovies() : getPreviewPosts()
-        if dataSource.isNonEmpty {
+        if dataSource.isNotEmpty {
             view?.scrollToTop()
         }
     }

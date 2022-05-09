@@ -16,8 +16,10 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
     //MARK: - Internal -
     func createMovieListModule(router: RouterProtocol) -> UIViewController {
         let view = MovieListViewController()
+        let networkService = NetworkService()
         let presenter = MovieListPresenter(view: view,
-                                          router: router)
+                                           networkService: networkService,
+                                           router: router)
         view.presenter = presenter
         return view
     }

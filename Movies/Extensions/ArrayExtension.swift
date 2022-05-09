@@ -8,7 +8,7 @@
 import Foundation
 
 extension Array where Element == PreviewMovieModel {
-    var isNonEmpty: Bool  {
+    var isNotEmpty: Bool  {
         return !self.isEmpty
     }
 }
