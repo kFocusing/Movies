@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol MovieDetailViewProtocol: AnyObject {
     func update(with movie: MovieDetailModel)
@@ -23,6 +24,7 @@ protocol MovieDetailPresenterProtocol: AnyObject {
     func getTrailerKey() -> String
     func trailersAvailable() -> Bool
     func comePreviousScreen()
+    func showPosterFullScreen(_ image: UIImage) 
 }
 
 class MovieDetailPresenter: MovieDetailPresenterProtocol {
@@ -49,8 +51,8 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
     
     //MARK: - Internal -
     func viewDidLoad() {
-        getDatailMovie()
         getMovieTrailerLink()
+        getDatailMovie()
     }
     
     func getTrailerKey() -> String {
@@ -64,6 +66,10 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
     
     func comePreviousScreen() {
         router?.popToRoot()
+    }
+    
+    func showPosterFullScreen(_ image: UIImage) {
+        router?.showPosterFullScreen(image)
     }
     
     //MARK: - Private -

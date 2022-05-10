@@ -15,6 +15,7 @@ protocol RouterMain {
 protocol RouterProtocol: RouterMain {
     func showMovieListViewController()
     func showMovieDetailViewController(movieID: Int?)
+    func showPosterFullScreen(_ image: UIImage) 
     func popToRoot()
 }
 
@@ -40,6 +41,12 @@ class Router: RouterProtocol {
         navigationController?.pushViewController(assemblyBuilder.createMovieDetailModule(router: self,
                                                                                          movieID: movieID),
                                                  animated: true)
+    }
+    
+    func showPosterFullScreen(_ image: UIImage) {
+        navigationController?.pushViewController(assemblyBuilder.createPosterFullScreen(router: self,
+                                                                             image: image),
+                                      animated: true)
     }
     
     func popToRoot() {

@@ -10,7 +10,9 @@ import UIKit
 protocol AssemblyBuilderProtocol {
     func createMovieListModule(router: RouterProtocol) -> UIViewController
     func createMovieDetailModule(router: RouterProtocol,
-                                 movieID: Int?) -> UIViewController 
+                                 movieID: Int?) -> UIViewController
+    func createPosterFullScreen(router: RouterProtocol,
+                                image: UIImage) -> UIViewController 
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
@@ -35,6 +37,16 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
                                              networkService: networkService,
                                              router: router,
                                              movieID: movieID)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createPosterFullScreen(router: RouterProtocol,
+                                image: UIImage) -> UIViewController {
+        let view = PosterFullScreenViewController()
+        let presenter = PosterFullScreenPresenter(view: view,
+                                                  router: router,
+                                                  image: image)
         view.presenter = presenter
         return view
     }

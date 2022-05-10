@@ -68,8 +68,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Internal -
     func viewDidLoad() {
-        getGenres()
-        getPreviewPosts()
+        if NetworkMonitor.shared.isConnected {
+            getGenres()
+            getPreviewPosts()
+        } else {
+            view?.displayError("You are offline. Please, enable your Wi-Fi or connect using cellular data.")
+        }
     }
     
     func getItem(at index: Int) -> PreviewMovieModel {

@@ -24,6 +24,9 @@ class MovieDetailViewController: BaseViewController {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .white
+        image.isUserInteractionEnabled = true
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                          action: #selector (showPosterFullScreen)))
         scrollView.addSubview(image)
         return image
     }()
@@ -76,6 +79,7 @@ class MovieDetailViewController: BaseViewController {
         button.setImage(UIImage(systemName: "film"), for: .normal)
         button.backgroundColor = .black
         button.tintColor = .white
+        button.isHidden = true
         button.makeRoundCorner(Int(buttonSize.width / 2))
         button.addTarget(self, action: #selector(trailerButtonPressed),
                                   for: .touchUpInside)
@@ -136,6 +140,11 @@ class MovieDetailViewController: BaseViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem()
     }
     
+    @objc private func showPosterFullScreen() {
+        guard let image = posterImage.image else { return }
+        presenter.showPosterFullScreen(image)
+    }
+    
     private func layoutUIElements() {
         DispatchQueue.main.async { [weak self] in
             self?.layoutScrollView()
@@ -151,12 +160,7 @@ class MovieDetailViewController: BaseViewController {
     }
     
     private func layoutScrollView() {
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        scrollView.pinEdges(to: view)
     }
     
     private func layoutPosterImage() {
