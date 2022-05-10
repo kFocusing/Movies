@@ -28,7 +28,6 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    //TODO: createMovieDetailModule
     func createMovieDetailModule(router: RouterProtocol,
                                  movieID: Int?) -> UIViewController {
         let view = MovieDetailViewController()

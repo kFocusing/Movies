@@ -43,8 +43,6 @@ class PosterFullScreenViewController: BaseViewController {
     
     //MARK: - Properties -
     var presenter: PosterFullScreenPresenterProtocol!
-//    private var minimumZoomScale = 0.1
-//    private var maximumZoomScale = 5
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -52,6 +50,10 @@ class PosterFullScreenViewController: BaseViewController {
         presenter.viewDidLoad()
         layoutScrollView()
         setupNavigationBar()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        centerImage()
     }
     
     //MARK: - Private -

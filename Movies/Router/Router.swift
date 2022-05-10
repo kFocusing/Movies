@@ -44,9 +44,12 @@ class Router: RouterProtocol {
     }
     
     func showPosterFullScreen(_ image: UIImage) {
-        navigationController?.pushViewController(assemblyBuilder.createPosterFullScreen(router: self,
-                                                                             image: image),
-                                      animated: true)
+        let posterViewController = assemblyBuilder.createPosterFullScreen(router: self,
+                                                                          image: image)
+        posterViewController.modalPresentationStyle = .automatic
+        navigationController?.present(posterViewController,
+                                      animated: true,
+                                      completion: nil)
     }
     
     func popToRoot() {

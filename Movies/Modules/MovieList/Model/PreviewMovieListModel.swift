@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - PreviewMovieListModel
+// MARK: - PreviewMovieListModel -
 struct PreviewMovieListModel: Codable {
     let page: Int
     let results: [PreviewMovieModel]
@@ -20,7 +20,7 @@ struct PreviewMovieListModel: Codable {
     }
 }
 
-// MARK: - PreviewMovieModel
+// MARK: - PreviewMovieModel -
 struct PreviewMovieModel: Codable {
     let adult: Bool
     let backdropPath: String?

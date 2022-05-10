@@ -20,10 +20,12 @@ protocol PosterFullScreenPresenterProtocol: AnyObject {
 
 class PosterFullScreenPresenter: PosterFullScreenPresenterProtocol {
     
+    //MARK: - Properties -
     private weak var view: PosterFullScreenViewProtocol?
     private var router: RouterProtocol?
     private var image: UIImage
     
+    //MARK: - Life Cycle -
     required init(view: PosterFullScreenViewProtocol,
                   router: RouterProtocol,
                   image: UIImage) {
@@ -36,6 +38,4 @@ class PosterFullScreenPresenter: PosterFullScreenPresenterProtocol {
     func viewDidLoad() {
         view?.showPoster(image: image)
     }
-    
-    
 }
