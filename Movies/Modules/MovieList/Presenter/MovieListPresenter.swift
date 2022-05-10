@@ -121,8 +121,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func sortPosts(by criterion: SortType) {
         view?.showActivityIndicator()
         switch criterion {
-        case .dateSort:
-            selectedSort = .dateSort
+        case .mostProfitable:
+            selectedSort = .mostProfitable
         case .ratingSort:
             selectedSort = .ratingSort
         case .defaultSort:
@@ -248,5 +248,5 @@ enum SortType: Int, CaseIterable {
     
     case defaultSort = 0
     case ratingSort
-    case dateSort
+    case mostProfitable
 }

@@ -89,10 +89,10 @@ class MovieListViewController: BaseViewController, UISearchBarDelegate {
             self.presenter.sortPosts(by: .ratingSort)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Date",
+        actionSheet.addAction(UIAlertAction(title: "Most Profitable",
                                       style: .default,
                                       handler: { _ in
-            self.presenter.sortPosts(by: .dateSort)
+            self.presenter.sortPosts(by: .mostProfitable)
         }))
         
         actionSheet.actions.indices.forEach {
