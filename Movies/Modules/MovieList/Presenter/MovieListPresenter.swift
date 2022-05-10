@@ -37,9 +37,9 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Properties -
-    weak var view: MovieListViewProtocol?
-    let networkService: NetworkServiceProtocol!
-    var router: RouterProtocol?
+    private weak var view: MovieListViewProtocol?
+    private let networkService: NetworkServiceProtocol!
+    private var router: RouterProtocol?
     private var movies: [PreviewMovieModel]
     private var searchResults: [PreviewMovieModel]
     private var searchText = ""
@@ -93,8 +93,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     func showMovieDetail(with id: Int) {
-        //TODO: set id
-        router?.showMovieDetailViewController()
+        router?.showMovieDetailViewController(movieID: id)
     }
     
     func dataSourceIsNotEmpty() -> Bool {

@@ -14,12 +14,7 @@ protocol NetworkServiceProtocol {
 }
 
 final class NetworkService: NetworkServiceProtocol {
-//    //MARK: - Static Constants -
-//    static let shared = NetworkService()
-//    
-//    //MARK: - Life Cycle -
-//    private init() {}
-    
+
     //MARK: - Internal -
     func request<T: Codable>(endPoint: EndPoint,
                              expecting: T.Type,

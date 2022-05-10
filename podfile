@@ -8,5 +8,6 @@ target 'Movies' do
   # Pods for Movies
   pod 'Alamofire'
   pod 'Kingfisher', '~> 7.0'
+  pod 'youtube-ios-player-helper-swift'
 
 end
