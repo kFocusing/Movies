@@ -1,5 +1,5 @@
 //
-//  PosterFullScreenPresenter.swift
+//  MoviePosterPresenter.swift
 //  Movies
 //
 //  Created by Danylo Klymov on 09.05.2022.
