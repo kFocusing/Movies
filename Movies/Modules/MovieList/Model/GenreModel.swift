@@ -7,10 +7,12 @@
 
 import Foundation
 
+// MARK: - GenreListModel -
 struct GenreListModel: Codable {
     let genres: [GenreModel]
 }
 
+// MARK: - GenreModel -
 struct GenreModel: Codable {
     let id: Int
     let name: String

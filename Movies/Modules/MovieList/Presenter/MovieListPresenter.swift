@@ -37,9 +37,9 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Properties -
-    weak var view: MovieListViewProtocol?
-    let networkService: NetworkServiceProtocol!
-    var router: RouterProtocol?
+    private weak var view: MovieListViewProtocol?
+    private let networkService: NetworkServiceProtocol!
+    private var router: RouterProtocol?
     private var movies: [PreviewMovieModel]
     private var searchResults: [PreviewMovieModel]
     private var searchText = ""
@@ -68,8 +68,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Internal -
     func viewDidLoad() {
-        getGenres()
-        getPreviewPosts()
+        view?.showActivityIndicator()
+        if NetworkMonitor.shared.isConnected {
+            getGenres()
+            getPreviewPosts()
+        } else {
+            view?.displayError("You are offline. Please, enable your Wi-Fi or connect using cellular data.")
+        }
     }
     
     func getItem(at index: Int) -> PreviewMovieModel {
@@ -93,8 +98,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     func showMovieDetail(with id: Int) {
-        //TODO: set id
-        router?.showMovieDetailViewController()
+        router?.showMovieDetailViewController(movieID: id)
     }
     
     func dataSourceIsNotEmpty() -> Bool {
@@ -118,8 +122,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func sortPosts(by criterion: SortType) {
         view?.showActivityIndicator()
         switch criterion {
-        case .dateSort:
-            selectedSort = .dateSort
+        case .mostProfitable:
+            selectedSort = .mostProfitable
         case .ratingSort:
             selectedSort = .ratingSort
         case .defaultSort:
@@ -195,7 +199,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
                                              page: currentPage)
         networkService.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
-            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {
@@ -245,5 +248,5 @@ enum SortType: Int, CaseIterable {
     
     case defaultSort = 0
     case ratingSort
-    case dateSort
+    case mostProfitable
 }

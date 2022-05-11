@@ -12,3 +12,9 @@ extension Array where Element == PreviewMovieModel {
         return !self.isEmpty
     }
 }
+
+extension Array where Element == TrailerIDModel {
+    var isNotEmpty: Bool  {
+        return !self.isEmpty
+    }
+}

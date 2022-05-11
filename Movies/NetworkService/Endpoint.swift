@@ -44,7 +44,6 @@ enum EndPoint {
         switch self {
         default: return .get
         }
-    
     }
     
     var encoding: ParameterEncoding {

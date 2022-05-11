@@ -14,7 +14,9 @@ protocol RouterMain {
 
 protocol RouterProtocol: RouterMain {
     func showMovieListViewController()
-    func showMovieDetailViewController()
+    func showMovieDetailViewController(movieID: Int?)
+    func showPosterFullScreen(_ image: UIImage) 
+    func popToRoot()
 }
 
 class Router: RouterProtocol {
@@ -35,7 +37,22 @@ class Router: RouterProtocol {
         navigationController?.viewControllers = [assemblyBuilder.createMovieListModule(router: self)]
     }
     
-    func showMovieDetailViewController() {
-        //TODO: make showMovieDetailViewController()
+    func showMovieDetailViewController(movieID: Int?) {
+        let MovieDetailViewController = assemblyBuilder.createMovieDetailModule(router: self,
+                                                                           movieID: movieID)
+        navigationController?.pushViewController(MovieDetailViewController,
+                                                 animated: true)
+    }
+    
+    func showPosterFullScreen(_ image: UIImage) {
+        let posterViewController = assemblyBuilder.createMoviePosterModule(router: self,
+                                                                          image: image)
+        navigationController?.present(posterViewController,
+                                      animated: true,
+                                      completion: nil)
+    }
+    
+    func popToRoot() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }

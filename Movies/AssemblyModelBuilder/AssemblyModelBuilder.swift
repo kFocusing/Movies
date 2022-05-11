@@ -9,10 +9,14 @@ import UIKit
 
 protocol AssemblyBuilderProtocol {
     func createMovieListModule(router: RouterProtocol) -> UIViewController
+    func createMovieDetailModule(router: RouterProtocol,
+                                 movieID: Int?) -> UIViewController
+    func createMoviePosterModule(router: RouterProtocol,
+                                 image: UIImage) -> UIViewController
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
-
+    
     //MARK: - Internal -
     func createMovieListModule(router: RouterProtocol) -> UIViewController {
         let view = MovieListViewController()
@@ -24,5 +28,25 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    //TODO: createMovieDetailModule
+    func createMovieDetailModule(router: RouterProtocol,
+                                 movieID: Int?) -> UIViewController {
+        let view = MovieDetailViewController()
+        let networkService = NetworkService()
+        let presenter = MovieDetailPresenter(view: view,
+                                             networkService: networkService,
+                                             router: router,
+                                             movieID: movieID)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createMoviePosterModule(router: RouterProtocol,
+                                 image: UIImage) -> UIViewController {
+        let view = MoviePosterViewController()
+        let presenter = MoviePosterPresenter(view: view,
+                                             router: router,
+                                             image: image)
+        view.presenter = presenter
+        return view
+    }
 }
