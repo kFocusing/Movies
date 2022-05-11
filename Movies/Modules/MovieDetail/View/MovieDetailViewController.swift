@@ -239,6 +239,7 @@ class MovieDetailViewController: BaseViewController {
             self?.setupRatingLabel(movie)
             self?.setupTrailerButton(movie)
             self?.setupDesriptionLabel(movie)
+            self?.hideActivityIndicator()
         }
     }
     

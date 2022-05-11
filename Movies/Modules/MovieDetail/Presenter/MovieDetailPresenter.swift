@@ -77,7 +77,6 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
         let endpoint = EndPoint.movieDetails(id: movieID)
         networkService.request(endPoint: endpoint,
                                expecting: MovieDetailModel.self) { [weak self] result in
-            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {
@@ -93,10 +92,10 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
     }
     
     private func getMovieTrailerLink() {
+        view?.showActivityIndicator()
         let endpoint = EndPoint.movieTrailer(id: movieID)
         networkService.request(endPoint: endpoint,
                                expecting: MovieTrailerModel.self) { [weak self] result in
-            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {

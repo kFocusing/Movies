@@ -11,12 +11,12 @@ protocol AssemblyBuilderProtocol {
     func createMovieListModule(router: RouterProtocol) -> UIViewController
     func createMovieDetailModule(router: RouterProtocol,
                                  movieID: Int?) -> UIViewController
-    func createPosterFullScreen(router: RouterProtocol,
-                                image: UIImage) -> UIViewController 
+    func createMoviePosterModule(router: RouterProtocol,
+                                 image: UIImage) -> UIViewController
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
-
+    
     //MARK: - Internal -
     func createMovieListModule(router: RouterProtocol) -> UIViewController {
         let view = MovieListViewController()
@@ -40,12 +40,12 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func createPosterFullScreen(router: RouterProtocol,
-                                image: UIImage) -> UIViewController {
-        let view = PosterFullScreenViewController()
-        let presenter = PosterFullScreenPresenter(view: view,
-                                                  router: router,
-                                                  image: image)
+    func createMoviePosterModule(router: RouterProtocol,
+                                 image: UIImage) -> UIViewController {
+        let view = MoviePosterViewController()
+        let presenter = MoviePosterPresenter(view: view,
+                                             router: router,
+                                             image: image)
         view.presenter = presenter
         return view
     }

@@ -68,6 +68,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - Internal -
     func viewDidLoad() {
+        view?.showActivityIndicator()
         if NetworkMonitor.shared.isConnected {
             getGenres()
             getPreviewPosts()
@@ -198,7 +199,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
                                              page: currentPage)
         networkService.request(endPoint: endpoint,
                                       expecting: PreviewMovieListModel.self) { [weak self] result in
-            self?.view?.hideActivityIndicator()
             switch result {
             case .success(let result):
                 if let result = result {

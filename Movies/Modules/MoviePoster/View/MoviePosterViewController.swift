@@ -1,5 +1,5 @@
 //
-//  PosterFullScreenViewController.swift
+//  MoviePosterViewController.swift
 //  Movies
 //
 //  Created by Danylo Klymov on 09.05.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PosterFullScreenViewController: BaseViewController {
+class MoviePosterViewController: BaseViewController {
     
     //MARK: - UIElements -
     private lazy var scrollView: UIScrollView = {
@@ -42,7 +42,7 @@ class PosterFullScreenViewController: BaseViewController {
     }()
     
     //MARK: - Properties -
-    var presenter: PosterFullScreenPresenterProtocol!
+    var presenter: MoviePosterPresenterProtocol!
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -119,7 +119,7 @@ class PosterFullScreenViewController: BaseViewController {
 }
 
 //MARK: - PosterFullScreenViewProtocol -
-extension PosterFullScreenViewController: PosterFullScreenViewProtocol {
+extension MoviePosterViewController: MoviePosterViewProtocol {
     func showPoster(image: UIImage) {
         moviePoster.image = image
         configurateFor(imageSize: image.size)
@@ -133,7 +133,7 @@ extension PosterFullScreenViewController: PosterFullScreenViewProtocol {
 }
 
 //MARK: - UIScrollViewDelegate -
-extension PosterFullScreenViewController: UIScrollViewDelegate {
+extension MoviePosterViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.moviePoster
     }

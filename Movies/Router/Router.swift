@@ -38,15 +38,15 @@ class Router: RouterProtocol {
     }
     
     func showMovieDetailViewController(movieID: Int?) {
-        navigationController?.pushViewController(assemblyBuilder.createMovieDetailModule(router: self,
-                                                                                         movieID: movieID),
+        let MovieDetailViewController = assemblyBuilder.createMovieDetailModule(router: self,
+                                                                           movieID: movieID)
+        navigationController?.pushViewController(MovieDetailViewController,
                                                  animated: true)
     }
     
     func showPosterFullScreen(_ image: UIImage) {
-        let posterViewController = assemblyBuilder.createPosterFullScreen(router: self,
+        let posterViewController = assemblyBuilder.createMoviePosterModule(router: self,
                                                                           image: image)
-        posterViewController.modalPresentationStyle = .automatic
         navigationController?.present(posterViewController,
                                       animated: true,
                                       completion: nil)

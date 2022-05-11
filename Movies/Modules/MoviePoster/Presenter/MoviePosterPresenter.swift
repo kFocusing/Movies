@@ -7,26 +7,26 @@
 
 import UIKit
 
-protocol PosterFullScreenViewProtocol: AnyObject {
+protocol MoviePosterViewProtocol: AnyObject {
     func showPoster(image: UIImage)
 }
 
-protocol PosterFullScreenPresenterProtocol: AnyObject {
-    init(view: PosterFullScreenViewProtocol,
+protocol MoviePosterPresenterProtocol: AnyObject {
+    init(view: MoviePosterViewProtocol,
          router: RouterProtocol,
          image: UIImage)
     func viewDidLoad()
 }
 
-class PosterFullScreenPresenter: PosterFullScreenPresenterProtocol {
+class MoviePosterPresenter: MoviePosterPresenterProtocol {
     
     //MARK: - Properties -
-    private weak var view: PosterFullScreenViewProtocol?
+    private weak var view: MoviePosterViewProtocol?
     private var router: RouterProtocol?
     private var image: UIImage
     
     //MARK: - Life Cycle -
-    required init(view: PosterFullScreenViewProtocol,
+    required init(view: MoviePosterViewProtocol,
                   router: RouterProtocol,
                   image: UIImage) {
         self.view = view

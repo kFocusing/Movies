@@ -16,9 +16,9 @@ final class NetworkMonitor {
     private let monitor: NWPathMonitor
     
     //MARK: - Variables -
-    internal private(set) var isConnected: Bool = false
+    private(set) var isConnected: Bool = false
     
-    internal private(set) var connectionType: ConnectionType = .unknown
+    private(set) var connectionType: ConnectionType = .unknown
     
     enum ConnectionType {
         case wifi
