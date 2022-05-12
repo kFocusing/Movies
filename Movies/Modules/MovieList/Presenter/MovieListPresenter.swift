@@ -195,6 +195,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     private func searchMovies() {
+        view?.showActivityIndicator()
         let endpoint = EndPoint.searchMovies(query: searchText,
                                              page: currentPage)
         networkService.request(endPoint: endpoint,
@@ -228,7 +229,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
         if dataSource.isNotEmpty {
             view?.scrollToTop()
         }
-        view?.hideActivityIndicator()
     }
 }
 
