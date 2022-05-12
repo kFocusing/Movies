@@ -185,6 +185,7 @@ extension MovieListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         presenter.searchItems(searchText)
+        showActivityIndicator()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

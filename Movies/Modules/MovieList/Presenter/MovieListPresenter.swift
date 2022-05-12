@@ -112,7 +112,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             let localWorkItem = DispatchWorkItem { [weak self] in
                 self?.updateSearchResults()
             }
-            DispatchQueue.global().asyncAfter(deadline: .now() + 1,
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5,
                                               execute: localWorkItem)
             workItem = localWorkItem
         }
@@ -223,12 +223,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     private func updateSearchResults() {
-        view?.showActivityIndicator()
         resetCurrentPage()
         isSearchActive ? searchMovies() : getPreviewPosts()
         if dataSource.isNotEmpty {
             view?.scrollToTop()
         }
+        view?.hideActivityIndicator()
     }
 }
 
