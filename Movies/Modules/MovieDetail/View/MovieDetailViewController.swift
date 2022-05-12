@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import youtube_ios_player_helper_swift
+import youtube_ios_player_helper
 
 class MovieDetailViewController: BaseViewController {
     
@@ -127,7 +127,7 @@ class MovieDetailViewController: BaseViewController {
     //MARK: - Private -
     @objc private func trailerButtonPressed() {
         showActivityIndicator()
-        playerView.load(videoId: presenter.getTrailerKey(), playerVars: .none)
+        playerView.load(withVideoId: presenter.getTrailerKey())
     }
     
     @objc private func backButtonTapped() {
