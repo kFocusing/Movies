@@ -15,6 +15,7 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var ratingLabel: UILabel!
     @IBOutlet private weak var genresLabel: UILabel!
     @IBOutlet private weak var posterImage: UIImageView!
+    @IBOutlet weak var likeImage: UIImageView!
     
     //MARK: - Private Variables -
     private var cornerRadius: CGFloat = 15
@@ -24,13 +25,14 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
         backgroundColor = .clear
         configureLabels(movie)
         configurePosterImage(movie)
+        addLikeImageShadow()
     }
     
     //MARK: - Private -
     private func configureLabels(_ movie: PreviewMovieModel) {
         titleLabel.text = movie.title + " (\(movie.releaseDate.prefix(4)))"
         titleLabel.dropShadow()
-        ratingLabel.text = String(movie.voteAverage)
+        ratingLabel.text = String(movie.voteCount)
         ratingLabel.dropShadow()
         genresLabel.text = GenerService.shared.getGenres(by: movie.genreIDS)
                                         .map{ $0.name.capitalized }
@@ -49,5 +51,12 @@ class MoviePreviewXibTableViewCell: BaseTableViewCell {
                   color: UIColor.black,
                   radius: 2,
                   opacity: 0.7)
+    }
+    
+    private func addLikeImageShadow() {
+        likeImage.addDropShadow(offset: CGSize.zero,
+                                color: UIColor.black,
+                                radius: 2,
+                                opacity: 1)
     }
 }
