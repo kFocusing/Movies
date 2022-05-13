@@ -22,12 +22,10 @@ class MoviePosterViewController: BaseViewController {
     }()
     
     private lazy var moviePoster: UIImageView = {
-        let image = UIImageView(frame: CGRect(x: 0,
-                                              y: 0,
-                                              width: view.frame.size.width,
-                                              height: view.frame.size.width / 2))
+        let image = UIImageView()
+        let screenSize: CGRect = UIScreen.main.bounds
+        image.frame.size = CGSize(width: screenSize.width / 2, height: screenSize.height / 3)
         image.translatesAutoresizingMaskIntoConstraints = true
-        image.center = view.center
         image.contentMode = .scaleAspectFill
         image.isUserInteractionEnabled = true
         scrollView.addSubview(image)
@@ -58,7 +56,12 @@ class MoviePosterViewController: BaseViewController {
     
     //MARK: - Private -
     private func layoutScrollView() {
-        scrollView.pinEdges(to: view)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func setupNavigationBar() {
@@ -82,7 +85,7 @@ class MoviePosterViewController: BaseViewController {
         }
         
         if frameToCenter.size.height < viewSize.height {
-            frameToCenter.origin.y = (viewSize.height - frameToCenter.size.height) / 2
+            frameToCenter.origin.y = ((viewSize.height - frameToCenter.size.height) / 2 ) - topbarHeight
         } else {
             frameToCenter.origin.y = 0
         }

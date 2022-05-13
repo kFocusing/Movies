@@ -132,6 +132,7 @@ class MovieDetailViewController: BaseViewController {
         super.viewDidLoad()
         layoutUIElements()
         view.backgroundColor = .white
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         presenter.viewDidLoad()
         layoutActivityIndicator(to: posterImage)
     }
@@ -348,5 +349,12 @@ extension MovieDetailViewController: YTPlayerViewDelegate {
             target: self,
             action: #selector(hidePlayer)
         )
+    }
+}
+
+extension MovieDetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

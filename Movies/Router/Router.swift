@@ -47,9 +47,7 @@ class Router: RouterProtocol {
     func showPosterFullScreen(_ image: UIImage) {
         let posterViewController = assemblyBuilder.createMoviePosterModule(router: self,
                                                                           image: image)
-        navigationController?.present(posterViewController,
-                                      animated: true,
-                                      completion: nil)
+        navigationController?.pushViewController(posterViewController, animated: true)
     }
     
     func popToRoot() {
