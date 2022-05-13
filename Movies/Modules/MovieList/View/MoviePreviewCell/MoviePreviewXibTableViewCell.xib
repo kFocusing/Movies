@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -31,11 +31,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Rating" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRz-At-yr2">
-                                <rect key="frame" x="307" y="174" width="92" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="92" id="pNQ-NV-Bc1"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Rating" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRz-At-yr2">
+                                <rect key="frame" x="342" y="174" width="57" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -43,17 +40,20 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Genres" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DK5-YG-dcH">
                                 <rect key="frame" x="15" y="174" width="265" height="20.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="265" id="AFL-Gm-6Zo"/>
+                                    <constraint firstAttribute="width" constant="265" id="AFL-Gm-6Zo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand.thumbsup.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fcI-2T-5b3">
+                                <rect key="frame" x="322" y="175" width="21" height="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KAo-Dz-dXw" firstAttribute="top" secondItem="u4H-bg-sK9" secondAttribute="top" constant="15" id="2TY-H9-o3H"/>
-                            <constraint firstItem="nRz-At-yr2" firstAttribute="leading" secondItem="DK5-YG-dcH" secondAttribute="trailing" constant="27" id="BE5-Ba-SRO"/>
                             <constraint firstItem="KAo-Dz-dXw" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="15" id="Nj3-hQ-1zE"/>
                             <constraint firstAttribute="bottom" secondItem="nRz-At-yr2" secondAttribute="bottom" constant="10" id="Oko-Ur-vLt"/>
                             <constraint firstAttribute="trailing" secondItem="nRz-At-yr2" secondAttribute="trailing" constant="15" id="Vh5-DP-Nnv"/>
@@ -61,9 +61,11 @@
                             <constraint firstAttribute="bottom" secondItem="Zoq-Iu-gzk" secondAttribute="bottom" constant="5" id="eJe-nN-5Rl"/>
                             <constraint firstItem="Zoq-Iu-gzk" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="5" id="efE-x8-0St"/>
                             <constraint firstItem="Zoq-Iu-gzk" firstAttribute="top" secondItem="u4H-bg-sK9" secondAttribute="top" constant="5" id="enA-dO-Kht"/>
+                            <constraint firstItem="nRz-At-yr2" firstAttribute="leading" secondItem="fcI-2T-5b3" secondAttribute="trailing" constant="3" id="hCx-sN-At1"/>
                             <constraint firstItem="DK5-YG-dcH" firstAttribute="leading" secondItem="u4H-bg-sK9" secondAttribute="leading" constant="15" id="o6H-Zq-iy7"/>
                             <constraint firstAttribute="trailing" secondItem="Zoq-Iu-gzk" secondAttribute="trailing" constant="5" id="qIL-eA-Bs9"/>
                             <constraint firstAttribute="trailing" secondItem="KAo-Dz-dXw" secondAttribute="trailing" constant="15" id="sMa-YU-lum"/>
+                            <constraint firstAttribute="bottom" secondItem="fcI-2T-5b3" secondAttribute="bottom" constant="12" id="xD5-8w-jlp"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -78,6 +80,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="genresLabel" destination="DK5-YG-dcH" id="FQR-2p-icr"/>
+                <outlet property="likeImage" destination="fcI-2T-5b3" id="UGV-J1-sXB"/>
                 <outlet property="posterImage" destination="Zoq-Iu-gzk" id="vaG-kn-rkd"/>
                 <outlet property="ratingLabel" destination="nRz-At-yr2" id="gie-Gd-dGI"/>
                 <outlet property="titleLabel" destination="KAo-Dz-dXw" id="8JM-gi-Qwc"/>
@@ -86,6 +89,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="hand.thumbsup.fill" catalog="system" width="128" height="121"/>
         <image name="questionmark.diamond" catalog="system" width="128" height="122"/>
     </resources>
 </document>

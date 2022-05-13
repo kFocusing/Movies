@@ -244,7 +244,7 @@ class MovieDetailViewController: BaseViewController {
     }
     
     private func setupNavigationBar(_ movie: MovieDetailModel) {
-        title = movie.title.count > 20 ? "\(movie.title.prefix(20))..." : movie.title
+        title = movie.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.backward"),
             style: .plain,
