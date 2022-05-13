@@ -20,6 +20,11 @@ class BaseViewController: UIViewController {
         return activityIndicator
     }()
     
+    var topbarHeight: CGFloat {
+        return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
+            (self.navigationController?.navigationBar.frame.height ?? 0.0)
+    }
+    
     //MARK: -Internal
     func showActivityIndicator() {
         DispatchQueue.main.async { [weak self] in
